@@ -1,0 +1,26 @@
+--- sbopkg.orig	2025-03-17 13:00:09.357366588 +0200
++++ sbopkg	2025-03-17 13:02:08.725370230 +0200
+@@ -3112,16 +3112,13 @@
+             cd "$CWD"
+             SRCNAME=$(get_source_names --placeholder $INFO)
+ 
+-            # Put SRCNAME lines into array elements.
+-            # This is a little bit involved since it has to deal with spaces
+-            # inside file names.
+-            # We know that we could obtain the same result faster by mangling
+-            # with IFS, but the resulting code was a bit too hacky.
+-            eval "SRCNAME=( $(
+-                while read LINE; do
+-                    printf '%q ' $LINE
+-                done <<< $SRCNAME
+-            ) )"
++            # Parse SRCNAME into array elements, preserving spaces and special characters in filenames.
++            # We avoid faster but less readable IFS-based splitting in favor of clarity and maintainability.
++            eval SRCNAME=( $(
++            while IFS= read -r LINE; do
++            printf '%q ' "$LINE"
++            done <<< "$SRCNAME"
++) )
+ 
+             check_source $PKG ${MD5SUM[$i]} "${SRCNAME[$i]}"
+             case $? in
