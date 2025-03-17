@@ -1,0 +1,9 @@
+--- current-release	2022-02-08 22:49:53.255228022 +0200
++++ current-release.new	2025-03-17 10:11:18.971057433 +0200
+@@ -25,4 +25,6 @@
+ # For /etc/os-release:
+ VERSION_CODENAME=current
+ PRETTY_NAME="Slackware 15.0 $ARCH (post 15.0 -current)"
++LogoPath=/etc/kde/xdg/slackware_logo.png
++
+ 

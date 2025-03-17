@@ -1,0 +1,110 @@
+--- rc.K	2025-01-27 21:37:06.804684615 +0200
++++ rc.K.new	2025-03-17 10:32:42.283096596 +0200
+@@ -47,20 +47,12 @@
+   /etc/rc.d/rc.local_shutdown stop
+ fi
+ 
+-# Stop the Apache web server:
+-if [ -x /etc/rc.d/rc.httpd ]; then
+-  /etc/rc.d/rc.httpd stop
+-fi
+-
+-# Stop the Samba server:
+-if [ -x /etc/rc.d/rc.samba ]; then
+-  /etc/rc.d/rc.samba stop
+-fi
+-
+-# Shut down the NFS server:
+-if [ -x /etc/rc.d/rc.nfsd ]; then
+-  /etc/rc.d/rc.nfsd stop
+-fi
++# Stop network services (Apache, Samba, NFS, etc.)
++for service in httpd samba nfsd pcscd acpid pcmcia; do
++  if [ -x /etc/rc.d/rc.$service ]; then
++    /etc/rc.d/rc.$service stop
++  fi
++done
+ 
+ # Kill any processes (typically gam) that would otherwise prevent
+ # unmounting NFS volumes:
+@@ -78,54 +70,40 @@
+ 
+ # Unmount any NFS, SMB, or CIFS filesystems:
+ echo "Unmounting remote filesystems:"
+-/bin/umount -v -a -l -f -r -t nfs,nfs4,smbfs,cifs | tr -d ' ' | grep successfully | sed "s/:successfullyunmounted/ has been successfully unmounted./g"
+-
+-# Stop the PC/SC-lite smart card daemon:
+-if [ -x /etc/rc.d/rc.pcscd ]; then
+-  /etc/rc.d/rc.pcscd stop
+-fi
+-
+-# Shut down PCMCIA devices:
+-if [ -x /etc/rc.d/rc.pcmcia ] ; then
+-  /etc/rc.d/rc.pcmcia stop
+-  # The cards might need a little extra time here to deactivate:
+-  sleep 5
+-fi
++for fs in $(/bin/mount | grep -e 'type nfs ' -e 'type nfs4 ' -e 'type smbfs ' -e 'type cifs ' | sed -e 's|.* on ||g' | cut -d ' ' -f 1); do
++  /bin/umount -v -l -f -r "$fs"
++  if [ $? -eq 0 ]; then
++    echo "$fs has been successfully unmounted."
++  else
++    echo "Failed to unmount $fs."
++  fi
++done
+ 
+-# Terminate acpid before syslog:
+-if [ -x /etc/rc.d/rc.acpid -a -r /var/run/acpid.pid ]; then # quit
+-  /etc/rc.d/rc.acpid stop
+-fi
++# Ensure safe disk sync before unmounting
++echo "Syncing filesystem buffers..."
++sync
++sync
++sync
++
++# Unmount all local filesystems for safer shutdown
++echo "Unmounting all local filesystems..."
++/bin/umount -a -r
++
++# Remount root as read-only to prevent corruption
++echo "Remounting root filesystem as read-only..."
++mount -o remount,ro /
+ 
+ # Kill all processes.
+-OMITPIDS="$(for p in $(pgrep mdmon); do echo -o $p; done)" # Don't kill mdmon
+-echo
++OMITPIDS="$(for p in $(pgrep mdmon); do echo -o $p; done)"
+ echo "Sending all processes the SIGHUP signal."
+ killall5 -1 $OMITPIDS
+-echo -n "Waiting for processes to hang up"
+-for loop in 0 1 2 3 4 5 ; do
+-  sleep 1
+-  echo -n "."
+-done
+-echo
++sleep 5
+ echo "Sending all processes the SIGTERM signal."
+ killall5 -15 $OMITPIDS
+-echo -n "Waiting for processes to terminate"
+-for loop in 0 1 2 3 4 5 ; do
+-  sleep 1
+-  echo -n "."
+-done
+-echo
++sleep 5
+ echo "Sending all processes the SIGKILL signal."
+ killall5 -9 $OMITPIDS
+-echo -n "Waiting for processes to exit"
+-for loop in 0 1 2 3 4 5 ; do
+-  sleep 1
+-  echo -n "."
+-done
+-echo
++sleep 5
+ 
+-# Now go to the single user level
+-echo "Going to single user mode..."
++echo "Shutdown cleanup complete. Going to single user mode..."
+ /sbin/telinit -t 1 1
+-

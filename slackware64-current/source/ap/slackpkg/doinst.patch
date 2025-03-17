@@ -1,0 +1,10 @@
+--- doinst.sh	2021-10-12 08:34:08.890488416 +0300
++++ doinst.sh.new	2025-03-17 09:24:19.000000000 +0200
+@@ -39,6 +39,7 @@
+ config etc/slackpkg/mirrors.new
+ config etc/slackpkg/slackpkg.conf.new
+ config etc/slackpkg/blacklist.new
++config etc/slackpkg/whitelist.new
+ rm -f var/lib/slackpkg/ChangeLog.txt
+ rm -f var/lib/slackpkg/pkglist
+ rm -f var/lib/slackpkg/CHECKSUMS.md5*

@@ -1,0 +1,20 @@
+--- sqg	2025-02-27 16:25:24.000000000 +0200
++++ sqg.new	2025-03-17 11:52:13.597242205 +0200
+@@ -8,7 +8,7 @@
+ 
+ # Copyright 2013 Chess Griffin <chess@chessgriffin.com> and
+ # slakmagik <slakmagik@gmail.com>
+-# Copyright 2016-2025 Willy Sudiarto Raharjo <willysr@sbopkg.org>
++# Copyright 2016-2021 Willy Sudiarto Raharjo <willysr@sbopkg.org>
+ 
+ # Redistribution and use of this script, with or without modification, is
+ # permitted provided that the following conditions are met:
+@@ -38,7 +38,7 @@
+ . /usr/libexec/sbopkg/sqg/functions
+ 
+ SCRIPT=${0##*/}
+-OPT_JOBS=1
++OPT_JOBS=$(( $(getconf _NPROCESSORS_ONLN) / 2 ))
+ OPT_ALL="no"
+ OPT_PACKAGES=""
+ OPT_OUTPUT=""

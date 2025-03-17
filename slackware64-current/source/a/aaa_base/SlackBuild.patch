@@ -1,0 +1,10 @@
+--- aaa_base.SlackBuild	2022-02-15 06:42:20.710200518 +0200
++++ aaa_base.SlackBuild.new	2025-03-17 10:15:45.314065561 +0200
+@@ -75,6 +75,7 @@
+   echo "$SLACKWARE_VERSION" > $PKG/etc/slackware-version
+   echo "VERSION_CODENAME=$VERSION_CODENAME" >> $PKG/etc/os-release
+   sed -i "s/PRETTY_NAME=.*/PRETTY_NAME=\"$PRETTY_NAME\"/g" $PKG/etc/os-release
++  echo "LogoPath=/etc/kde/xdg/slackware_logo.png" >> $PKG/etc/os-release
+ else
+   echo "VERSION_CODENAME=stable" >> $PKG/etc/os-release
+ fi

@@ -1,0 +1,24 @@
+--- profile.new	2025-03-17 12:04:17.817264307 +0200
++++ profile.hack	2025-03-17 12:09:20.542273545 +0200
+@@ -66,6 +66,21 @@
+  biff y 2> /dev/null
+ fi
+ 
++# Ensure XDG_RUNTIME_DIR is set hack of the day...
++if [ -z "$XDG_RUNTIME_DIR" ]; then
++  if [ -d /run/user/$UID ]; then
++    XDG_RUNTIME_DIR=/run/user/$UID
++  else
++    XDG_RUNTIME_DIR=/dev/shm/xdg-runtime-$UID
++    if [ ! -d $XDG_RUNTIME_DIR ]; then
++      mkdir -p $XDG_RUNTIME_DIR
++    fi
++    chown $USER $XDG_RUNTIME_DIR
++    chmod 700 $XDG_RUNTIME_DIR
++  fi
++fi
++export XDG_RUNTIME_DIR
++
+ # Append any additional sh scripts found in /etc/profile.d/:
+ for profile_script in /etc/profile.d/*.sh ; do
+   if [ -x $profile_script ]; then
