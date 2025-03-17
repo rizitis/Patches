@@ -11,7 +11,7 @@
    -  adding slackware_logo.png path in os-release.
    
 4. a/etc/_etc.tar.gz
-   - Ensure XDG_RUNTIME_DIR is set in /etc/profile
+   - Ensure XDG_RUNTIME_DIR is set in `/etc/profile`
 
 ---
 
