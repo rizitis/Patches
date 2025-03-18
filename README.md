@@ -19,5 +19,5 @@
 
 1. sbopkg /usr/sbin/sqg
    - made `sqg -a` to use half of avaliable cpu threads, else use only 1 ...
-2. sbopkg /usr/sbin/sbopkg
-   - Safely split SRCNAME into array elements, preserving spaces in filenames
+2. ~~sbopkg /usr/sbin/sbopkg~~
+   - ~~Safely split SRCNAME into array elements, preserving spaces in filenames~~ | **Addopted** by [sbopkg](https://github.com/sbopkg/sbopkg/issues/99) project!
