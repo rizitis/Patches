@@ -173,6 +173,18 @@ diff -Naupr slackpkg/files/core-functions.sh slackpkg-new/files/core-functions.s
  }
  
  # Blacklist filter
+diff -Naupr slackpkg/files/slackpkg.conf.new slackpkg-new/files/slackpkg.conf.new
+--- slackpkg/files/slackpkg.conf.new	2021-05-31 23:24:32.073866268 +0300
++++ slackpkg-new/files/slackpkg.conf.new	2025-04-03 12:01:16.743026511 +0300
+@@ -1,7 +1,7 @@
+ #
+ # /etc/slackpkg/slackpkg.conf
+ # Configuration for SlackPkg
+-# v15.0
++# v1234.0
+ #
+ 
+ # SlackPkg - An Automated packaging tool for Slackware Linux
 diff -Naupr slackpkg/files/whitelist.new slackpkg-new/files/whitelist.new
 --- slackpkg/files/whitelist.new	1970-01-01 02:00:00.000000000 +0200
 +++ slackpkg-new/files/whitelist.new	2025-04-03 11:37:55.998264648 +0300
@@ -182,7 +194,7 @@ diff -Naupr slackpkg/files/whitelist.new slackpkg-new/files/whitelist.new
 +# Add here any package name from kde set you DONT what to be blacklisted:
 diff -Naupr slackpkg/slackpkg.SlackBuild slackpkg-new/slackpkg.SlackBuild
 --- slackpkg/slackpkg.SlackBuild	2024-07-20 20:09:32.800185690 +0300
-+++ slackpkg-new/slackpkg.SlackBuild	2025-04-03 11:29:16.442248792 +0300
++++ slackpkg-new/slackpkg.SlackBuild	2025-04-03 12:01:40.664027241 +0300
 @@ -20,12 +20,16 @@
  #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
@@ -195,7 +207,7 @@ diff -Naupr slackpkg/slackpkg.SlackBuild slackpkg-new/slackpkg.SlackBuild
  
  PKGNAM=slackpkg
 -VERSION=${VERSION:-15.0.10}
-+VERSION=${VERSION:-16.0.0}
++VERSION=${VERSION:-1234.0}
  ARCH="noarch"
 -BUILD=${BUILD:-4}
 +BUILD=${BUILD:-1}
